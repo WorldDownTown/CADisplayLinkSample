@@ -12,6 +12,8 @@
 		CE32E2DC1EA893C6009B0B3D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CE32E2DA1EA893C6009B0B3D /* Main.storyboard */; };
 		CE32E2DE1EA893C7009B0B3D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CE32E2DD1EA893C7009B0B3D /* Assets.xcassets */; };
 		CE32E2E11EA893C7009B0B3D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CE32E2DF1EA893C7009B0B3D /* LaunchScreen.storyboard */; };
+		CEAE2D371EA8DF7D00A4E1B8 /* ProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEAE2D361EA8DF7D00A4E1B8 /* ProgressView.swift */; };
+		CEAE2D391EA8DFCD00A4E1B8 /* ProgressView.xib in Resources */ = {isa = PBXBuildFile; fileRef = CEAE2D381EA8DFCD00A4E1B8 /* ProgressView.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,6 +24,8 @@
 		CE32E2DD1EA893C7009B0B3D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		CE32E2E01EA893C7009B0B3D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		CE32E2E21EA893C7009B0B3D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		CEAE2D361EA8DF7D00A4E1B8 /* ProgressView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProgressView.swift; sourceTree = "<group>"; };
+		CEAE2D381EA8DFCD00A4E1B8 /* ProgressView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProgressView.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -55,6 +59,8 @@
 			isa = PBXGroup;
 			children = (
 				CE32E2D61EA893C6009B0B3D /* AppDelegate.swift */,
+				CEAE2D361EA8DF7D00A4E1B8 /* ProgressView.swift */,
+				CEAE2D381EA8DFCD00A4E1B8 /* ProgressView.xib */,
 				CE32E2D81EA893C6009B0B3D /* ViewController.swift */,
 				CE32E2DA1EA893C6009B0B3D /* Main.storyboard */,
 				CE32E2DD1EA893C7009B0B3D /* Assets.xcassets */,
@@ -125,6 +131,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CE32E2E11EA893C7009B0B3D /* LaunchScreen.storyboard in Resources */,
+				CEAE2D391EA8DFCD00A4E1B8 /* ProgressView.xib in Resources */,
 				CE32E2DE1EA893C7009B0B3D /* Assets.xcassets in Resources */,
 				CE32E2DC1EA893C6009B0B3D /* Main.storyboard in Resources */,
 			);
@@ -139,6 +146,7 @@
 			files = (
 				CE32E2D91EA893C6009B0B3D /* ViewController.swift in Sources */,
 				CE32E2D71EA893C6009B0B3D /* AppDelegate.swift in Sources */,
+				CEAE2D371EA8DF7D00A4E1B8 /* ProgressView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -304,6 +312,7 @@
 				CE32E2E71EA893C7009B0B3D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

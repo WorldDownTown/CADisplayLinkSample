@@ -10,55 +10,25 @@ import UIKit
 
 final class ViewController: UIViewController {
 
-    @IBOutlet private weak var percentageLabel: UILabel!
-    @IBOutlet private weak var barWrapperView: UIView!
-    @IBOutlet private weak var barWidthConstraint: NSLayoutConstraint!
-    private var displayLink: CADisplayLink!
-    private let duration: TimeInterval = 0.5
-    private let matching: CGFloat = 60.0
-    private var startTimeInterval: TimeInterval = 0.0
+    @IBOutlet private weak var progressView1: ProgressView!
+    @IBOutlet private weak var progressView2: ProgressView!
+    @IBOutlet private weak var progressView3: ProgressView!
+    @IBOutlet private weak var progressView4: ProgressView!
+    @IBOutlet private weak var progressView5: ProgressView!
 
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
+    override func viewDidLoad() {
+        super.viewDidLoad()
 
-        setupDisplayLink()
-    }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+            self.progressView1.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionLinear)
 
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
+            self.progressView2.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseIn)
 
-        startAnimation()
-    }
+            self.progressView3.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseOut)
 
-    private func setupDisplayLink() {
-        displayLink = CADisplayLink(target: self, selector: #selector(updateTimer))
-        if #available(iOS 10.0, *) {
-            displayLink.preferredFramesPerSecond = 60
-        } else {
-            displayLink.frameInterval = 1
-        }
-        displayLink.isPaused = true
-        displayLink.add(to: .current, forMode: .commonModes)
-    }
+            self.progressView4.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
 
-    @objc private func startAnimation() {
-        startTimeInterval = Date.timeIntervalSinceReferenceDate
-        displayLink.isPaused = false
-    }
-
-    @objc private func stopAnimation() {
-        displayLink.isPaused = true
-    }
-
-    @objc private func updateTimer() {
-        let elapsed: TimeInterval = Date.timeIntervalSinceReferenceDate - startTimeInterval
-        let progress: CGFloat = (elapsed > duration) ? 1.0 : CGFloat(elapsed / duration)
-        let percentage: Int = Int(progress * matching)
-        percentageLabel.text = "\(percentage)"
-        barWidthConstraint.constant = barWrapperView.frame.width * progress * matching / 100.0
-
-        if progress == 1.0 {
-            displayLink.isPaused = true
+            self.progressView5.timingFunction = CAMediaTimingFunction(controlPoints: 0.51, 0.01, 0.61, 1.01)
         }
     }
 }
