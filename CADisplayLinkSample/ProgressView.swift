@@ -15,14 +15,11 @@ import UIKit
 
     private let lineLayer: CAShapeLayer = CAShapeLayer()
     private let baseLineLayer: CAShapeLayer = CAShapeLayer()
-    private let animation: CABasicAnimation = CABasicAnimation(keyPath: "strokeEnd")
-    private let animationKey: String = "animationKey"
     private let duration: TimeInterval = 1.0
     private var displayLink: CADisplayLink!
     private var startTimeInterval: TimeInterval = 0.0
 
     var matching: CGFloat = 100.0
-    var timingFunction: CAMediaTimingFunction?
     var points: (p1: CGPoint, p2: CGPoint)?
 
     required init?(coder aDecoder: NSCoder) {
@@ -47,10 +44,17 @@ import UIKit
         super.layoutSubviews()
 
         setupBaseLineLayerPath()
+    }
 
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-            self.startAnimation()
+    private func setupDisplayLink() {
+        displayLink = CADisplayLink(target: self, selector: #selector(updateTimer))
+        if #available(iOS 10.0, *) {
+            displayLink.preferredFramesPerSecond = 60
+        } else {
+            displayLink.frameInterval = 1
         }
+        displayLink.isPaused = true
+        displayLink.add(to: .current, forMode: .commonModes)
     }
 
     private func setupContentView() {
@@ -73,17 +77,8 @@ import UIKit
         baseLineLayer.lineCap = kCALineCapRound
         layer.addSublayer(baseLineLayer)
 
-        animation.fromValue = 0.0
-        animation.toValue = 1.0
-        animation.duration = duration
-        animation.fillMode = kCAFillModeForwards
-        animation.isRemovedOnCompletion = false
-
-        if lineLayer.animation(forKey: animationKey) != nil {
-            lineLayer.removeAnimation(forKey: animationKey)
-        }
         lineLayer.strokeColor = UIColor.red.cgColor
-        lineLayer.lineWidth = 5.0
+        lineLayer.lineWidth = 6.0
         lineLayer.strokeStart = 0.0
         lineLayer.strokeEnd = 0.0
         lineLayer.lineCap = kCALineCapRound
@@ -98,45 +93,33 @@ import UIKit
         baseLineLayer.path = path
     }
 
-    private func startAnimation() {
-        animation.timingFunction = timingFunction
+    func startAnimation() {
         let path: CGMutablePath = CGMutablePath()
         let start: CGPoint = CGPoint(x: 0.0, y: 66.0)
         let end: CGPoint = CGPoint(x: frame.width * matching / 100.0, y: 66.0)
         path.move(to: start)
         path.addLine(to: end)
         lineLayer.path = path
-        lineLayer.add(animation, forKey: animationKey)
         layer.addSublayer(lineLayer)
 
         startTimeInterval = Date.timeIntervalSinceReferenceDate
         displayLink.isPaused = false
     }
 
-    private func setupDisplayLink() {
-        displayLink = CADisplayLink(target: self, selector: #selector(updateTimer))
-        if #available(iOS 10.0, *) {
-            displayLink.preferredFramesPerSecond = 60
-        } else {
-            displayLink.frameInterval = 1
-        }
-        displayLink.isPaused = true
-        displayLink.add(to: .current, forMode: .commonModes)
-    }
-
     @objc private func updateTimer() {
         let elapsed: TimeInterval = Date.timeIntervalSinceReferenceDate - startTimeInterval
         let progress: CGFloat = (elapsed > duration) ? 1.0 : CGFloat(elapsed / duration)
-        let rate: CGFloat
+        let computedProgress: CGFloat
         if let (p1, p2) = points {
             let t: CGFloat = progress
             // cubic bezier
-            rate = 3.0 * (1.0 - t) * (1.0 - t) * t * p1.y + 3 * (1.0 - t) * t * t * p2.y + t * t * t
+            computedProgress = 3.0 * (1.0 - t) * (1.0 - t) * t * p1.y + 3 * (1.0 - t) * t * t * p2.y + t * t * t
         } else {
-            rate = progress
+            computedProgress = progress
         }
-        let percentage: Int = Int(rate * matching)
+        let percentage: Int = Int(computedProgress * matching)
         percentageLabel.text = "\(percentage)"
+        lineLayer.strokeEnd = computedProgress
 
         if progress == 1.0 {
             displayLink.isPaused = true
