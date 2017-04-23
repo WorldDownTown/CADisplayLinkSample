@@ -29,6 +29,7 @@ final class ViewController: UIViewController {
             self.progressView4.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
 
             self.progressView5.timingFunction = CAMediaTimingFunction(controlPoints: 0.51, 0.01, 0.61, 1.01)
+            self.progressView5.points = (p1: CGPoint(x: 0.51, y: 0.01), p2: CGPoint(x: 0.61, y: 1.01))
         }
     }
 }

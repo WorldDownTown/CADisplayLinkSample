@@ -23,6 +23,7 @@ import UIKit
 
     var matching: CGFloat = 100.0
     var timingFunction: CAMediaTimingFunction?
+    var points: (p1: CGPoint, p2: CGPoint)?
 
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -126,7 +127,15 @@ import UIKit
     @objc private func updateTimer() {
         let elapsed: TimeInterval = Date.timeIntervalSinceReferenceDate - startTimeInterval
         let progress: CGFloat = (elapsed > duration) ? 1.0 : CGFloat(elapsed / duration)
-        let percentage: Int = Int(progress * matching)
+        let rate: CGFloat
+        if let (p1, p2) = points {
+            let t: CGFloat = progress
+            // cubic bezier
+            rate = 3.0 * (1.0 - t) * (1.0 - t) * t * p1.y + 3 * (1.0 - t) * t * t * p2.y + t * t * t
+        } else {
+            rate = progress
+        }
+        let percentage: Int = Int(rate * matching)
         percentageLabel.text = "\(percentage)"
 
         if progress == 1.0 {
